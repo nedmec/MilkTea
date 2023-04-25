@@ -3,8 +3,22 @@ from Beverage import menu
 import factory
 import Storage
 import time
-sum = 1.5         # 设置倒计时时间
+sum = 1.5         
 timeflush = 0.25
+def check(st):
+    if(st[0] not in menu) :
+        return "不存在该商品，请重新点单"
+    drink = menu[st[0]]
+    if st[1] != "大杯" and st[1] != "中杯" :
+        return "不存在该杯型，请重新点单"
+    if drink.ice == 1 and st[2]!="正常冰":
+        return "该饮品只能做冷饮哦，请重新点单"
+    if drink.ice == 2 and st[2]!="热的" :
+        return "该饮品只能做热饮哦，请重新点单"
+    if drink.sweet == 1 and st[3]!= "正常糖":
+        return "该饮品不能去糖哦，请重新点单"
+    return "正确"
+
 def make(target):
     for j in target.source:
         if j.errormesssage!="":
@@ -17,15 +31,24 @@ def make(target):
             index = i % 4
             print("\r正在加入{}{}".format(j.name, list[index]), end="")
             time.sleep(timeflush)
-
+    if target.package == "打包":
+        print ("\r正在打包         ",end='')
+        time.sleep(1.2)
     print("\r您的奶茶已经制作完成")
     return target.price
+
+
+
 ok = "是"
 total = 0
 while ok == "是":
     name = input("请输入您需要的奶茶 ")
     need = name.split(" ")
-    drink = factory.BeverageFactory(need[0], need[1], need[2], need[3])
+    message = check(need)
+    if(message!="正确"):
+        print(message)
+        continue
+    drink = factory.BeverageFactory(need[0], need[1], need[2], need[3] ,need[4])
     drink.addtoppings(need[4:])
     total+=make(drink)
     ok = input("是否继续点单？") 

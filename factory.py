@@ -5,7 +5,7 @@ from Beverage import menu
 
 
 class BeverageFactory():
-    def __init__(self, name, size,ice,sweet):
+    def __init__(self, name, size,ice,sweet,package):
         drink = menu[name]
         if size == "大杯": 
             self.price=drink.bigprice
@@ -13,12 +13,16 @@ class BeverageFactory():
         elif size == "中杯":
             self.price = drink.price
             self.size = 1
-        
+        if package =="打包":
+            self.price+=2
+
         self.ice = ice
         self.sweet =sweet
+        self.package = package
         self.source = []
         for key in drink.source.keys():
             self.source.append(m(key,self.size))
+        
         
     def addtoppings(self,*a):
         li = a[0]

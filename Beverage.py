@@ -1,7 +1,7 @@
 import Storage
 
 class Beverage:
-    def __init__(self, name, ice, sweet, *args,**kwargs):
+    def __init__(self, name, ice, sweet, *args):
         self.name = name
         self.ice = ice
         self.sweet = sweet
