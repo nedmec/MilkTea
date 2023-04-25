@@ -1,0 +1,33 @@
+import Beverage
+from Beverage import menu 
+import factory
+import Storage
+import time
+sum = 1.5         # 设置倒计时时间
+timeflush = 0.25
+def make(target):
+    for j in target.source:
+        if j.errormesssage!="":
+            print("Sorry!{},请重新点单".format(j.errormesssage))
+            del j
+            return 0
+    for j in target.source:
+        for i in range(0, int(sum/timeflush)):
+            list = ["\\", "|", "/", "—"]
+            index = i % 4
+            print("\r正在加入{}{}".format(j.name, list[index]), end="")
+            time.sleep(timeflush)
+
+    print("\r您的奶茶已经制作完成")
+    return target.price
+ok = "是"
+total = 0
+while ok == "是":
+    name = input("请输入您需要的奶茶 ")
+    need = name.split(" ")
+    drink = factory.BeverageFactory(need[0], need[1], need[2], need[3])
+    drink.addtoppings(need[4:])
+    total+=make(drink)
+    ok = input("是否继续点单？") 
+
+print("请付款{}元，欢迎下次光临！".format(total))
